@@ -66,3 +66,6 @@ run.sh
 
 #temp files
 *~
+#pycharm files
+.idea
+.idea/*
