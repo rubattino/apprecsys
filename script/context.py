@@ -219,7 +219,7 @@ def parseDataRunAll(filename):
             x.itemId,
             x.ts)
     ])
-    groupData = map((lambda (x, y): (x, list(y))), sorted(finalRDD.groupByKey().collect()))
+    groupData = finalRDD.groupByKey().map(lambda (x, y): (x, list(y)))
     def remove_duplicates(values):
         output = []
         seen = set()
@@ -278,7 +278,7 @@ def parseDataRunAll(filename):
         #scores = scores / numTest
         scores = scores / numHit
         return scores
-    finalScore_lru = sc.parallelize(groupData).map(lruFunction)
+    finalScore_lru = groupData.map(lruFunction).mean()
     def mruFunction(line):
         listGroup = line[1]
         listGroup = sorted(listGroup,key=lambda x:int(x[1]));
@@ -323,7 +323,7 @@ def parseDataRunAll(filename):
         #scores = scores / numTest
         scores = scores / numHit
         return scores
-    finalScore_mru = sc.parallelize(groupData).map(mruFunction)
+    finalScore_mru = groupData.map(mruFunction).mean()
     from collections import Counter
     def mfuFunction(line):
         listGroup = line[1]
@@ -379,7 +379,7 @@ def parseDataRunAll(filename):
         #    return line[0], Recommender[0], Recommender[1], Recommender[2], Recommender[3], Recommender[4]
         #return line[0],trainList[0],trainList[1],trainList[2],trainList[3],trainList[4],trainList[5],trainList[6],trainList[7]
         #return l,len(trainList),len(testList)
-    finalScore_mfu = sc.parallelize(groupData).map(mfuFunction)
+    finalScore_mfu = groupData.map(mfuFunction).mean()
 
     #BAYESIAN
     finalRDD = eventsConvertedRdd.map(lambda x: [
@@ -389,7 +389,7 @@ def parseDataRunAll(filename):
             x.latitude,
             x.longitude,)
     ])
-    groupData = map((lambda (x,y): (x, sorted(list(y),key=lambda a: a[1]))), sorted(finalRDD.groupByKey().collect()))
+    groupData = finalRDD.groupByKey().map(lambda (x,y): (x, sorted(list(y),key=lambda a: a[1])))
     def detectMovement(x):
         data = x[1]
         newData = [(data[0][0], data[0][1], data[0][2], data[0][3], 1)]
@@ -410,7 +410,7 @@ def parseDataRunAll(filename):
                     moving = 4 #faster
             newData.append((event[0],event[1],event[2],event[3], moving))
         return (x[0], newData)
-    groupData = sc.parallelize(groupData).map(detectMovement).cache()
+    groupData = groupData.map(detectMovement).cache()
 
     def convertLocation(line):
         listGroup = line[1]
@@ -543,5 +543,5 @@ def parseDataRunAll(filename):
 
         #return newTestList[:20]
         return scores
-    result_bay = final.map(bayesian)
-    return finalScore_lru.mean(), finalScore_mru.mean(), finalScore_mfu.mean(), result_bay.mean()
+    result_bay = final.map(bayesian).mean()
+    return finalScore_lru, finalScore_mru, finalScore_mfu, result_bay
