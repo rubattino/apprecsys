@@ -247,10 +247,10 @@ def parseDataRunAll(filename):
         RecommenderDuplicate =  [t[0] for t in trainList]        #take only id for train set
         Recommender = remove_duplicates(RecommenderDuplicate)    #remove duplicate
 
+        finalRecommender = [-1,-1,-1,-1,-1]
         if len(Recommender) > 4:
             finalRecommender = Recommender[:5]
         else:
-            finalRecommender = [-1,-1,-1,-1,-1]
             numRec = len(finalRecommender)
             finalRecommender[:numRec] = Recommender
 
@@ -279,6 +279,8 @@ def parseDataRunAll(filename):
         scores = scores / numHit
         return scores
     finalScore_lru = groupData.map(lruFunction).mean()
+    return finalScore_lru#, finalScore_mru, finalScore_mfu, result_bay
+    """
     def mruFunction(line):
         listGroup = line[1]
         listGroup = sorted(listGroup,key=lambda x:int(x[1]));
@@ -292,10 +294,10 @@ def parseDataRunAll(filename):
         RecommenderDuplicate =  [t[0] for t in trainList]        #take only id for train set
         Recommender = remove_duplicates(RecommenderDuplicate)    #remove duplicate
 
+        finalRecommender = [-1,-1,-1,-1,-1]
         if len(Recommender) > 4:
             finalRecommender = Recommender[:5]
         else:
-            finalRecommender = [-1,-1,-1,-1,-1]
             numRec = len(finalRecommender)
             finalRecommender[:numRec] = Recommender
 
@@ -342,10 +344,10 @@ def parseDataRunAll(filename):
         Recommender = Counter(RecommenderDuplicate).most_common()
         Recommender =  [t[0] for t in Recommender]
 
+        finalRecommender = [-1,-1,-1,-1,-1]
         if len(Recommender) > 4:
             finalRecommender = Recommender[:5]
         else:
-            finalRecommender = [-1,-1,-1,-1,-1]
             numRec = len(finalRecommender)
             finalRecommender[:numRec] = Recommender
 
@@ -543,5 +545,5 @@ def parseDataRunAll(filename):
 
         #return newTestList[:20]
         return scores
-    result_bay = final.map(bayesian).mean()
-    return finalScore_lru, finalScore_mru, finalScore_mfu, result_bay
+    result_bay = final.map(bayesian).mean()"""
+
