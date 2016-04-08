@@ -44,7 +44,7 @@ from collections import namedtuple
 import os
 import datetime
 
-execfile("../script/utils.py")
+execfile("/home/mert/mjrepo/apprecsys/script/utils.py")
 data_path = os.environ["YAHOO_DATA"]
 
 EventDataRow = namedtuple("EventDataRow",
@@ -214,6 +214,7 @@ def parseDataRunAll(filename):
         time_of_day=x.time_of_day,
         event_type=x.event_type
     ))
+    
     finalRDD = eventsConvertedRdd.map(lambda x: [
         x.userId, (
             x.itemId,
@@ -230,7 +231,7 @@ def parseDataRunAll(filename):
                 output.append(value)
                 seen.add(value)
         return output
-
+    
     def lruFunction(line):
         listGroup = line[1]
         #shuffle(listGroup)                  #shuffle the list
@@ -256,31 +257,37 @@ def parseDataRunAll(filename):
 
         scores = 0
         numHit = 0
-        for t in testList:
-            if t == finalRecommender[0]:
-                scores = scores+1
-                numHit = numHit+1
-            elif t == finalRecommender[1]:
-                scores = scores+0.8
-                numHit = numHit+1
-            elif t == finalRecommender[2]:
-                scores = scores+0.6
-                numHit = numHit+1
-            elif t == finalRecommender[3]:
-                scores = scores+0.4
-                numHit = numHit+1
-            elif t == finalRecommender[4]:
-                scores = scores+0.2
-                numHit = numHit+1
-            else:
-                numHit = numHit+1
+        if len(t) ==0 or len(finalRecommender) <5:
+            scores = 0
+        else: 
+            for t in testList:
+                if len(finalRecomender) < 4:
+                    numHit = numHit+1
+                    continue
+                elif t == finalRecommender[0]:
+                    scores = scores+1
+                    numHit = numHit+1
+                elif t == finalRecommender[1]:
+                    scores = scores+0.8
+                    numHit = numHit+1
+                elif t == finalRecommender[2]:
+                    scores = scores+0.6
+                    numHit = numHit+1
+                elif t == finalRecommender[3]:
+                    scores = scores+0.4
+                    numHit = numHit+1
+                elif t == finalRecommender[4]:
+                    scores = scores+0.2
+                    numHit = numHit+1
+                else:
+                    numHit = numHit+1
 
-        #scores = scores / numTest
-        scores = scores / numHit
+            #scores = scores / numTest
+            scores = scores / numHit
         return scores
     finalScore_lru = groupData.map(lruFunction).mean()
     return finalScore_lru#, finalScore_mru, finalScore_mfu, result_bay
-    """
+'''
     def mruFunction(line):
         listGroup = line[1]
         listGroup = sorted(listGroup,key=lambda x:int(x[1]));
@@ -303,27 +310,30 @@ def parseDataRunAll(filename):
 
         scores = 0
         numHit = 0
-        for t in testList:
-            if t == finalRecommender[0]:
-                scores = scores+1
-                numHit = numHit+1
-            elif t == finalRecommender[1]:
-                scores = scores+0.8
-                numHit = numHit+1
-            elif t == finalRecommender[2]:
-                scores = scores+0.6
-                numHit = numHit+1
-            elif t == finalRecommender[3]:
-                scores = scores+0.4
-                numHit = numHit+1
-            elif t == finalRecommender[4]:
-                scores = scores+0.2
-                numHit = numHit+1
-            else:
-                numHit = numHit+1
+        if len(t) ==0 or len(finalRecommender) <5:
+            scores = 0
+        else:
+            for t in testList:
+                if t == finalRecommender[0]:
+                    scores = scores+1
+                    numHit = numHit+1
+                elif t == finalRecommender[1]:
+                    scores = scores+0.8
+                    numHit = numHit+1
+                elif t == finalRecommender[2]:
+                    scores = scores+0.6
+                    numHit = numHit+1
+                elif t == finalRecommender[3]:
+                    scores = scores+0.4
+                    numHit = numHit+1
+                elif t == finalRecommender[4]:
+                    scores = scores+0.2
+                    numHit = numHit+1
+                else:
+                    numHit = numHit+1
 
-        #scores = scores / numTest
-        scores = scores / numHit
+            #scores = scores / numTest
+            scores = scores / numHit
         return scores
     finalScore_mru = groupData.map(mruFunction).mean()
     from collections import Counter
@@ -344,36 +354,40 @@ def parseDataRunAll(filename):
         Recommender = Counter(RecommenderDuplicate).most_common()
         Recommender =  [t[0] for t in Recommender]
 
-        finalRecommender = [-1,-1,-1,-1,-1]
+        
         if len(Recommender) > 4:
             finalRecommender = Recommender[:5]
         else:
+            finalRecommender = [-1,-1,-1,-1,-1]
             numRec = len(finalRecommender)
             finalRecommender[:numRec] = Recommender
 
         scores = 0
         numHit = 0
-        for t in testList:
-            if t == finalRecommender[0]:
-                scores = scores+1
-                numHit = numHit+1
-            elif t == finalRecommender[1]:
-                scores = scores+0.8
-                numHit = numHit+1
-            elif t == finalRecommender[2]:
-                scores = scores+0.6
-                numHit = numHit+1
-            elif t == finalRecommender[3]:
-                scores = scores+0.4
-                numHit = numHit+1
-            elif t == finalRecommender[4]:
-                scores = scores+0.2
-                numHit = numHit+1
-            else:
-                numHit = numHit+1
+        if len(t) ==0 or len(finalRecommender) <5:
+            scores = 0
+        else:
+            for t in testList:
+                if t == finalRecommender[0]:
+                    scores = scores+1
+                    numHit = numHit+1
+                elif t == finalRecommender[1]:
+                    scores = scores+0.8
+                    numHit = numHit+1
+                elif t == finalRecommender[2]:
+                    scores = scores+0.6
+                    numHit = numHit+1
+                elif t == finalRecommender[3]:
+                    scores = scores+0.4
+                    numHit = numHit+1
+                elif t == finalRecommender[4]:
+                    scores = scores+0.2
+                    numHit = numHit+1
+                else:
+                    numHit = numHit+1
 
-        #scores = scores / numTest
-        scores = scores / numHit
+            #scores = scores / numTest
+            scores = scores / numHit
         return scores
         #return Recommender
         #return testList[0],testList[1],testList[2],testList[3],testList[4]
@@ -416,7 +430,7 @@ def parseDataRunAll(filename):
 
     def convertLocation(line):
         listGroup = line[1]
-        workGroup = [x for x in listGroup if datetime.datetime.fromtimestamp(int(x[1])).hour >= 6 and
+        workGroup = [x for x in listGroup if datetime.datetime.fromtimestamp(int(x[1])).hour >= 6 and  
                 datetime.datetime.fromtimestamp(int(x[1])).hour <= 18]
         numNearLocation = []
         i = 0
@@ -426,10 +440,13 @@ def parseDataRunAll(filename):
                 if haversine(x[3], x[2], y[3], y[2]) < 0.1:
                     numNearLocation[i] = numNearLocation[i] + 1
             i = i + 1
-        index_work = numNearLocation.index(max(numNearLocation))
-    #     workGroup = [(x[0],x[1],x[2],x[3],1) if haversine(x[3], x[2], workGroup[index_work][3], workGroup[index_work][2]) < 0.1
+        if len(numNearLocation) > 0:
+            index_work = numNearLocation.index(max(numNearLocation))
+        else:
+            index_work = -1
+    #     workGroup = [(x[0],x[1],x[2],x[3],1) if haversine(x[3], x[2], workGroup[index_work][3], workGroup[index_work][2]) < 0.1 
     #                  else (x[0],x[1],x[2],x[3],0) for x in workGroup]
-        #workGroup3 = [(x[0],x[1],0)  for x in workGroup if haversine(x[3], x[2], workGroup[index][3], workGroup[index][2]) >= 0.1]
+        #workGroup3 = [(x[0],x[1],0)  for x in workGroup if haversine(x[3], x[2], workGroup[index][3], workGroup[index][2]) >= 0.1]        
 
         homeGroup = [x for x in listGroup if datetime.datetime.fromtimestamp(int(x[1])).hour < 6 or
                 datetime.datetime.fromtimestamp(int(x[1])).hour > 18]
@@ -442,16 +459,24 @@ def parseDataRunAll(filename):
                 if haversine(x[3], x[2], y[3], y[2]) < 0.1:
                     numNearLocation[i] = numNearLocation[i] + 1
             i = i + 1
-        index_home = numNearLocation.index(max(numNearLocation))
-    #     homeGroup = [(x[0],x[1],x[2],x[3],2) if haversine(x[3], x[2], homeGroup[index_home][3], homeGroup[index_home][2]) < 0.1
+        if len(numNearLocation) > 0:
+            index_home = numNearLocation.index(max(numNearLocation))
+        else:
+            index_home = -1
+    #     homeGroup = [(x[0],x[1],x[2],x[3],2) if haversine(x[3], x[2], homeGroup[index_home][3], homeGroup[index_home][2]) < 0.1 
     #                  else (x[0],x[1],x[2],x[3],0) for x in homeGroup]
 
-        listGroup = [(x[0],x[1],x[4],1) if haversine(x[3], x[2], workGroup[index_work][3], workGroup[index_work][2]) < 0.01
-                     else(
+        if index_home != -1 and index_work != -1:
+            listGroup = [(x[0],x[1],x[4],1) if haversine(x[3], x[2], workGroup[index_work][3], workGroup[index_work][2]) < 0.01 
+                     else( 
                         (x[0],x[1],x[4],2) if haversine(x[3], x[2], homeGroup[index_home][3], homeGroup[index_home][2]) < 0.01
-                        else (x[0],x[1],x[4],3)
+                        else (x[0],x[1],x[4],3) 
                         )
                      for x in listGroup]
+        else:
+            listGroup = [(x[0],x[1],x[4],3)
+                     for x in listGroup]
+
 
         listGroup = [(x[0],x[2],x[3],1) if datetime.datetime.fromtimestamp(int(x[1])).hour >= 8 and
                     datetime.datetime.fromtimestamp(int(x[1])).hour <= 13
@@ -469,6 +494,25 @@ def parseDataRunAll(filename):
         return line[0],listGroup
     final = groupData.map(convertLocation)
 
+    def topFiveSortedList(oldList, context, probability):
+        for x in range(0,len(oldList)-1):
+            if x == 0 and oldList[x][1] < probability:
+                oldList[x] = (context,probability)
+                if oldList[x+1][1] < oldList[x][1]:
+                    temp = oldList[x+1] 
+                    oldList[x+1] = oldList[x]
+                    oldList[x] = temp 
+                else:
+                    break
+            elif oldList[x+1][1] < oldList[x][1]:
+                temp = oldList[x+1] 
+                oldList[x+1] = oldList[x]
+                oldList[x] = temp 
+            else:
+                break
+        #return sorted(oldList,key=lambda x: -x[1])
+        return oldList
+    
     def remove_duplicates(values):
         output = []
         seen = set()
@@ -483,7 +527,7 @@ def parseDataRunAll(filename):
     def bayesian(line):
         listGroup = line[1]
         #shuffle(listGroup)                  #shuffle the list
-        l = len(listGroup)
+        l = len(listGroup) 
         numTrain = l * 8 / 10
         numTest = l - numTrain
         trainList = listGroup[:numTrain]      #0.8 train set
@@ -494,56 +538,62 @@ def parseDataRunAll(filename):
         for t in testList:
             context = [x for x in trainList if x[1]==t[1] and x[2]==t[2] and x[3]==t[3]]
             numContext = float(len(context))
-            p_context = numContext/numTrain  #P(C1i, C2j, C3k)
-            p_app = []
+            if numTrain != 0:
+                p_context = numContext/numTrain  #P(C1i, C2j, C3k)
+            else:
+                p_context = 0
+            p_app = [(-1,0),(-1,0),(-1,0),(-1,0),(-1,0)]
             context_no_duplicate = remove_duplicates(context)
             for c in context_no_duplicate:
                 appi = [x for x in trainList if x[0]==c[0]]
                 numAppi = float(len(appi))
-                p_appi = numAppi/numTrain
+                if numTrain != 0:
+                    p_appi = numAppi/numTrain
+                else:
+                    p_appi = 0
                 contextAppi = [x for x in trainList if x[0]==c[0] and x[1]==c[1] and x[2]==c[2] and x[3]==c[3]]
                 if numAppi != 0:    #P(C1i, C2j, C3k | APPid)
-                    p_contextAppi = len(contextAppi)/numAppi
+                    p_contextAppi = len(contextAppi)/numAppi 
                 else:
                     p_contextAppi = 0
                 if p_context != 0:  #P(APPid | C1i,C2j,C3k = P(C1i, C2j, C3k | APPid)  P(APPid) /P(C1i, C2j, C3k)
                     p = p_contextAppi * p_appi / p_context
                 else:
                     p = 0
-                p_app.append((c[0],p))
-            app_sort = sorted(p_app,key=lambda x: -x[1])
-            if len(app_sort)>=5:
-                app_rec = map(lambda x:x[0],app_sort[:5])
-            else:
-                app_rec = [-1,-1,-1,-1,-1]
-                app_rec[:len(app_sort)] = map(lambda x:x[0],app_sort)
+                p_app = topFiveSortedList(p_app,c[0],p)
+            p_app = sorted(p_app,key=lambda x: -x[1])
+            app_rec = map(lambda x:x[0],p_app[:5])
             newTestList.append((t[0],app_rec))
-
         scores = 0
         numHit = 0
-        for t in newTestList:
-            if t[0] == t[1][0]:
-                scores = scores+1
-                numHit = numHit+1
-            elif t[0] == t[1][1]:
-                scores = scores+0.8
-                numHit = numHit+1
-            elif t[0] == t[1][2]:
-                scores = scores+0.6
-                numHit = numHit+1
-            elif t[0] == t[1][3]:
-                scores = scores+0.4
-                numHit = numHit+1
-            elif t[0] == t[1][4]:
-                scores = scores+0.2
-                numHit = numHit+1
+        if len(t) ==0 or len(finalRecommender) <5:
+            scores = 0
+        else:
+            for t in newTestList:
+                if t[0] == t[1][0]:
+                    scores = scores+1
+                    numHit = numHit+1
+                elif t[0] == t[1][1]:
+                    scores = scores+0.8
+                    numHit = numHit+1
+                elif t[0] == t[1][2]:
+                    scores = scores+0.6
+                    numHit = numHit+1
+                elif t[0] == t[1][3]:
+                    scores = scores+0.4
+                    numHit = numHit+1
+                elif t[0] == t[1][4]:
+                    scores = scores+0.2
+                    numHit = numHit+1
+#                else:
+#                    numHit = numHit+1
+            #scores = scores / numTest
+            if numHit != 0:
+                scores = scores / numHit
             else:
-                numHit = numHit+1
-
-        #scores = scores / numTest
-        scores = scores / numHit
-
+                scores = 0
         #return newTestList[:20]
         return scores
-    result_bay = final.map(bayesian).mean()"""
-
+    result_bay = final.map(bayesian).mean()
+    return result_bay#finalScore_lru, finalScore_mru, finalScore_mfu, result_bay
+    '''
