@@ -1,5 +1,10 @@
 __author__ = 'mertergun'
 from math import radians, cos, sin, asin, sqrt
+from collections import namedtuple
+import datetime
+EventRow = namedtuple("event", ["userId", "itemId","ts","city","lat","lon"])
+TrainRow = namedtuple("train", ["itemId", "context"])
+ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location" ])
 
 def haversine(lon1, lat1, lon2, lat2):
     """
@@ -16,6 +21,50 @@ def haversine(lon1, lat1, lon2, lat2):
     c = 2 * asin(sqrt(a))
     r = 6371 # Radius of earth in kilometers. Use 3956 for miles
     return c * r
+
+def loadDataset(path):
+    events = sc.textFile(path).map(lambda line: line[1:-1].split(",")).map(lambda x: EventRow(
+        userId=int(x[0]),
+        itemId=int(x[1]),
+        ts=int(x[2]),
+        city=int(x[3]),
+        lat=float(x[6]),
+        lon=float(x[7])
+            # day_of_week=datetime.fromtimestamp(int(x[2])).day,
+            # hour_of_day=datetime.fromtimestamp(int(x[2])).hour
+            #day_of_week=int(x[4]),
+            #hour_of_day=int(x[5])
+        ))
+    #test = sc.textFile(path).map(lambda line: TestRow(
+    #   recId=int(line[1:].split(",")[0]),
+    #    userId=int(line[1:].split(",")[1]),
+    #    contextForTest=ContextForTest(
+    #        time_of_day=line.split(",")[2][2:-1],
+    #        day_of_week=line.split(",")[3][2:-1],
+    #        city=int(line.split(",")[4])
+    #    ),
+    #       listOfItems=[int(itemStr) for itemStr in line.split("[")[1][:-2].split(",")]
+    #))
+    return events
+
+def splitRdd(rdd,splitRatio):
+    train = rdd.map(lambda x: (x[0], x[1][: int(len(x[1])*splitRatio)]))
+    test = rdd.map(lambda x: (x[0], x[1][int(len(x[1])*splitRatio):]))
+    return train,test
+
+def parseContextData(line):
+    import re
+    f = lambda x : re.sub('[^0-9-.]','',x)
+    line = str(line)
+    uid = int(f(line.split('[')[0]))
+    k = map(lambda x: x.split(','), line.split('[')[1].split('(')[1:])
+    data = []
+    for ele in k:
+        data.append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
+                                                       float(f(ele[3])), float(f(ele[4])),
+                                                       int(f(ele[5])), int(f(ele[6])) ) ) )
+    return (uid, data)
+
 #notfinished
 class Sorted_List:
     def __init__(self, maxsize, compare_func):
