@@ -51,6 +51,9 @@ def splitRdd(rdd,splitRatio):
     train = rdd.map(lambda x: (x[0], x[1][: int(len(x[1])*splitRatio)]))
     test = rdd.map(lambda x: (x[0], x[1][int(len(x[1])*splitRatio):]))
     return train,test
+def splitRddV2(rdd,splitRatio):
+    new_rdd = rdd.map(lambda x: (x[0], x[1][: int(len(x[1])*splitRatio)], x[1][int(len(x[1])*splitRatio):]))
+    return new_rdd
 
 def parseContextData(line):
     import re
@@ -63,6 +66,24 @@ def parseContextData(line):
         data.append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
                                                        float(f(ele[3])), float(f(ele[4])),
                                                        int(f(ele[5])), int(f(ele[6])) ) ) )
+    return (uid, data)
+
+def parseContextData2(line):
+    import re
+    f = lambda x : re.sub('[^0-9-.]','',x)
+    line = str(line)
+    uid = int(f(line.split('[')[0]))
+    k = map(lambda x: x.split(','), line.split('[')[1].split('(')[1:])
+    l = map(lambda x: x.split(','), line.split('[')[2].split('(')[1:])
+    data = [[],[]]
+    for ele in k:
+        data[0].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
+                                                       float(f(ele[3])), float(f(ele[4])),
+                                                       int(f(ele[5])), int(f(ele[6])) ) ) )
+    for ele in l:
+        data[1].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
+                                                        float(f(ele[3])), float(f(ele[4])),
+                                                        int(f(ele[5])), int(f(ele[6])))))
     return (uid, data)
 
 #notfinished
