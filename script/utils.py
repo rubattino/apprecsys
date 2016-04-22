@@ -4,7 +4,7 @@ from collections import namedtuple
 import datetime
 EventRow = namedtuple("event", ["userId", "itemId","ts","city","lat","lon"])
 TrainRow = namedtuple("train", ["itemId", "context"])
-ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location" ])
+ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location", "time_of_day" ])
 
 def haversine(lon1, lat1, lon2, lat2):
     """
@@ -55,6 +55,7 @@ def splitRddV2(rdd,splitRatio):
     new_rdd = rdd.map(lambda x: (x[0], x[1][: int(len(x[1])*splitRatio)], x[1][int(len(x[1])*splitRatio):]))
     return new_rdd
 
+#parsing data with context, but the data should be seperated into 2 different files as train and test
 def parseContextData(line):
     import re
     f = lambda x : re.sub('[^0-9-.]','',x)
@@ -65,9 +66,10 @@ def parseContextData(line):
     for ele in k:
         data.append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
                                                        float(f(ele[3])), float(f(ele[4])),
-                                                       int(f(ele[5])), int(f(ele[6])) ) ) )
+                                                       int(f(ele[5])), int(f(ele[6])), int(f(ele[7])) ) ) )
     return (uid, data)
 
+#parsing data with context, but the data should be seperated within the same file, same user row
 def parseContextData2(line):
     import re
     f = lambda x : re.sub('[^0-9-.]','',x)
@@ -79,12 +81,25 @@ def parseContextData2(line):
     for ele in k:
         data[0].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
                                                        float(f(ele[3])), float(f(ele[4])),
-                                                       int(f(ele[5])), int(f(ele[6])) ) ) )
+                                                       int(f(ele[5])), int(f(ele[6])), int(f(ele[7])) ) ) )
     for ele in l:
         data[1].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[2])),
                                                         float(f(ele[3])), float(f(ele[4])),
-                                                        int(f(ele[5])), int(f(ele[6])))))
+                                                        int(f(ele[5])), int(f(ele[6])), int(f(ele[7])))))
     return (uid, data)
+
+def convertTime(ts):
+    hour = datetime.datetime.fromtimestamp(ts).hour
+    _time_of_day = -1;
+    if hour >= 5 and hour < 12:
+        _time_of_day = 1 #"morning"
+    if hour >= 12 and hour < 17:
+        _time_of_day = 2 #"afternoon"
+    if hour >= 17 and hour < 21:
+        _time_of_day = 3 #"evening"
+    if hour >= 21 or hour < 5:
+        _time_of_day = 4 #"night"
+    return _time_of_day
 
 #notfinished
 class Sorted_List:
