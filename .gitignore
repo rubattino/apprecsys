@@ -61,7 +61,7 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
-#Run script
+#Run scriptnotebooks/op.txt
 run.sh
 
 #temp files
@@ -69,3 +69,8 @@ run.sh
 #pycharm files
 .idea
 .idea/*
+
+notebooks/result/*
+notebooks/asdf*
+notebooks/output*
+
