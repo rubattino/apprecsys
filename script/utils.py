@@ -133,44 +133,6 @@ class SortedCollection(object):
 
     In short, the class was designed to handle all of the common use cases for
     bisect but with a simpler API and support for key functions.
-
-    >>> from pprint import pprint
-    >>> from operator import itemgetter
-
-    >>> s = SortedCollection(key=itemgetter(2))
-    >>> for record in [
-    ...         ('roger', 'young', 30),
-    ...         ('angela', 'jones', 28),
-    ...         ('bill', 'smith', 22),
-    ...         ('david', 'thomas', 32)]:
-    ...     s.insert(record)
-
-    >>> pprint(list(s))         # show records sorted by age
-    [('bill', 'smith', 22),
-     ('angela', 'jones', 28),
-     ('roger', 'young', 30),
-     ('david', 'thomas', 32)]
-
-    >>> s.find_le(29)           # find oldest person aged 29 or younger
-    ('angela', 'jones', 28)
-    >>> s.find_lt(28)           # find oldest person under 28
-    ('bill', 'smith', 22)
-    >>> s.find_gt(28)           # find youngest person over 28
-    ('roger', 'young', 30)
-
-    >>> r = s.find_ge(32)       # find youngest person aged 32 or older
-    >>> s.index(r)              # get the index of their record
-    3
-    >>> s[3]                    # fetch the record at that index
-    ('david', 'thomas', 32)
-
-    >>> s.key = itemgetter(0)   # now sort by first name
-    >>> pprint(list(s))
-    [('angela', 'jones', 28),
-     ('bill', 'smith', 22),
-     ('david', 'thomas', 32),
-     ('roger', 'young', 30)]
-
     '''
 
     def __init__(self, iterable=(), key=None):
@@ -245,8 +207,14 @@ class SortedCollection(object):
         'Insert a new item.  If equal keys are found, add to the left'
         k = self._key(item)
         i = bisect_left(self._keys, k)
+        for el in self._items:
+            if el[0] ==  item[0]:
+                val = max(el[1],item[1])
+                self._items[self._items.index(el)] = (el[0], val)
+                return
         self._keys.insert(i, k)
         self._items.insert(i, item)
+        self.remove(self[0])
 
     def insert_right(self, item):
         'Insert a new item.  If equal keys are found, add to the right'
@@ -308,3 +276,4 @@ class SortedCollection(object):
 #   output->
 #SortedCollection([(123243, 0.13), (123124, 0.23), (123245, 0.35)], key=<lambda>)
 #SortedCollection([(123124, 0.23), (123245, 0.35)], key=<lambda>)
+
