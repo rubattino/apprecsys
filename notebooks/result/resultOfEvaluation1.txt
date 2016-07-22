@@ -16,3 +16,210 @@ mru by recall: 0.226528561163,0.464578928004,0.6978499194,0.929918381009,1.17288
 mfu by mrr:0.324477200469
 mfu by map:0.382823516708
 mfu by recall: 0.394348815815,0.675468759972,0.897491109231,1.07954517094,1.2343077226
+2000 users with once evaluation
+lru by mrr:0.231941347681
+lru by map:0.356328964968
+lru by recall: 0.270127470106,0.545440949993,0.79330421741,1.04139518991,1.28823217258
+2000 users with once evaluation
+mru by mrr:0.193270989599
+mru by map:0.358969542459
+mru by recall: 0.228029114937,0.461340877283,0.692919186591,0.923479908585,1.1572309126
+2000 users with once evaluation
+mfu by mrr:0.32533978018
+mfu by map:0.379666944258
+mfu by recall: 0.393558238383,0.672649556226,0.889799343069,1.07458368863,1.2299091737
+
+2000 users with duplicated evaluations
+lru by mrr:0.249677742592
+lru by map:0.374214025959
+lru by recall: 0.22875215254,0.460872339241,0.673590474756,0.873084981513,1.06897462266
+2000 users with duplicated evaluations
+mru by mrr:0.195419355584
+mru by map:0.359773196764
+mru by recall: 0.180617886853,0.368562445839,0.552297586538,0.740260244562,0.938916645301
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:0.397396372423
+mfu by recall: 0.331248597858,0.565576052622,0.753345139392,0.915693358928,1.06047737929
+2000 users with duplicated evaluations
+lru by mrr:0.249677742592
+lru by map:0.374214025959
+lru by recall: 0.124472669755,0.248187481079,0.344322661074,0.420111565045,0.481888470962
+2000 users with duplicated evaluations
+mru by mrr:0.195419355584
+mru by map:0.359773196764
+mru by recall: 0.0952590372107,0.18887342933,0.26348431833,0.330451612006,0.389156624813
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:0.397396372423
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+
+2000 users with duplicated evaluations
+lru by mrr:0.249677742592
+lru by map:6.33232635697
+lru by recall: 0.124472669755,0.248187481079,0.344322661074,0.420111565045,0.481888470962
+2000 users with duplicated evaluations
+mru by mrr:0.195419355584
+mru by map:5.45173090844
+mru by recall: 0.0952590372107,0.18887342933,0.26348431833,0.330451612006,0.389156624813
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:8.88267053025
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+2000 users with duplicated evaluations
+mfuFunction_P by precision:0.570763780604
+2000 users with duplicated evaluations
+lruFunction_P by precision:0.543439719843
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+mruFunction_P by precision:0.386794391633
+2000 users with duplicated evaluations
+lruFunction_P by precision:0.543439719843
+2000 users with duplicated evaluations
+mfuFunction_P by precision:0.570763780604
+2000 users with duplicated evaluations
+mfuFunction_P by precision:0.570763780604
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:8.88267053025
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+mfu by precision:0.570763780604
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:8.88267053025
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+mfu by precision:0.570763780604
+mfu by rap:0.855038331177
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+lru by mrr:0.249677742592
+lru by map:6.33232635697
+lru by recall: 0.124472669755,0.248187481079,0.344322661074,0.420111565045,0.481888470962
+lru by precision:0.543439719843
+lru by rap:0.795798765833
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations
+bayesian_context_moving by mrr:0.313628622979
+bayesian_context_moving by map:0.395691974298
+bayesian_context_moving by recall: 0.190259315012,0.316161554153,0.409689915403,0.481387185393,0.537975937805
+bayesian_context_moving by precision:0.560208521042
+bayesian_context_moving by rap:0.841628530951
+2000 users with duplicated evaluations
+lru by mrr:0.249677742592
+lru by map:0.374214025959
+lru by recall: 0.124472669755,0.248187481079,0.344322661074,0.420111565045,0.481888470962
+lru by precision:0.543439719843
+lru by rap:0.795798765833
+2000 users with duplicated evaluations
+bayesian_context_location by mrr:0.316655370872
+bayesian_context_location by map:0.396103560025
+bayesian_context_location by recall: 0.19247539683,0.320170006491,0.413571230596,0.485802695733,0.541508003526
+bayesian_context_location by precision:0.559392713573
+bayesian_context_location by rap:0.843641341415
+2000 users with duplicated evaluations
+bayesian_context_time by mrr:0.31104859049
+bayesian_context_time by map:0.39644206992
+bayesian_context_time by recall: 0.189492600037,0.315398075935,0.406329577647,0.475506410201,0.530499129175
+bayesian_context_time by precision:0.549745807842
+bayesian_context_time by rap:0.839682599755
+2000 users with duplicated evaluations
+bayesian_context_last_app_chain_mfu by mrr:0.326053290942
+bayesian_context_last_app_chain_mfu by map:0.398768734629
+bayesian_context_last_app_chain_mfu by recall: 0.198335745864,0.329040562025,0.424680687294,0.500012998914,0.558273085594
+bayesian_context_last_app_chain_mfu by precision:0.573847589383
+bayesian_context_last_app_chain_mfu by rap:0.853952994474
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by map:0.397396372423
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+mfu by precision:0.570763780604
+mfu by rap:0.855038331177
+2000 users with duplicated evaluations first 1/2 test set
+mfuFunction_time by mrr:0.323743670405
+mfuFunction_time by map:0.397529332683
+mfuFunction_time by recall: 0.194249708899,0.326564116035,0.423812444103,0.499506120849,0.559492267824
+mfuFunction_time by precision:0.566522497806
+mfuFunction_time by rap:0.791014734732
+
+
+2000 users with duplicated evaluations second 1/2 test set
+mfuFunction_time by mrr:0.331099329443
+mfuFunction_time by map:0.408873004985
+mfuFunction_time by recall: 0.203389451393,0.332219670051,0.429741822742,0.504791634683,0.564916292213
+mfuFunction_time by precision:0.570371143151
+mfuFunction_time by rap:0.798268237953
+
+2000 users with duplicated evaluations  1 week time limited set to train set
+mfuFunction_time by mrr:0.328374022359
+mfuFunction_time by map:0.396680780393
+mfuFunction_time by recall: 0.199980031041,0.330467957456,0.428140656997,0.502887635187,0.562416220432
+mfuFunction_time by precision:0.570294926136
+mfuFunction_time by rap:0.85441935114
+2000 users with duplicated evaluations  0.5 week time limited set to train set
+mfuFunction_time by mrr:0.325870212142
+mfuFunction_time by map:0.39634457975
+mfuFunction_time by recall: 0.197900548739,0.328400268023,0.424956154273,0.499769882236,0.558925264003
+mfuFunction_time by precision:0.570048003668
+mfuFunction_time by rap:0.852092566136
+2000 users with duplicated evaluations  1 day time limited set to train set
+mfuFunction_time by mrr:0.319198060236
+mfuFunction_time by map:0.397784019543
+mfuFunction_time by recall: 0.193467283244,0.325158866138,0.41778115565,0.489123022477,0.545000134146
+mfuFunction_time by precision:0.564494008011
+mfuFunction_time by rap:0.848477273236
+2000 users with duplicated evaluations  1 hour time limited set to train set
+mfuFunction_time by mrr:0.231954718517
+mfuFunction_time by map:0.431623598597
+mfuFunction_time by recall: 0.147488079419,0.242085637906,0.305020805853,0.34694577704,0.375486915748
+mfuFunction_time by precision:0.431306126079
+mfuFunction_time by rap:0.760904189343
+2000 users with duplicated evaluations
+2000 users with duplicated evaluations  1 day time limited to train set and test set
+mfuFunction_time by mrr:0.306899192365
+mfuFunction_time by map:0.397177686807
+mfuFunction_time by recall: 0.186015249044,0.312470969807,0.402183034962,0.469766923325,0.524047368976
+mfuFunction_time by precision:0.540759995883
+mfuFunction_time by rap:0.843083611106
+2000 users with duplicated evaluations  0.5 day time limited to train set and test set
+mfuFunction_time by mrr:0.28871537829
+mfuFunction_time by map:0.40366040458
+mfuFunction_time by recall: 0.176598732524,0.294663948913,0.377417023656,0.440039330755,0.4892598435
+mfuFunction_time by precision:0.517189738925
+mfuFunction_time by rap:0.792205505898
+2000 users with duplicated evaluations  1 day time limited to train set and 0.5 day time limited to test set
+mfuFunction_time by mrr:0.311227346903
+mfuFunction_time by map:0.403200426627
+mfuFunction_time by recall: 0.1885974852,0.317294435426,0.408523170066,0.476615157478,0.530859215096
+mfuFunction_time by precision:0.548051248971
+mfuFunction_time by rap:0.814582646337
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by mrr1:0.0
+mfu by map:0.397396372423
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+mfu by precision:0.570763780604
+mfu by rap:0.855038331177
+2000 users with duplicated evaluations
+mfu by mrr:0.328854220525
+mfu by mrr1:0.332640738615
+mfu by map:0.397396372423
+mfu by recall: 0.200553186923,0.330969732261,0.428455729919,0.503140481847,0.562771683841
+mfu by precision:0.570763780604
+mfu by rap:0.855038331177
+2000 users with duplicated evaluations
+mfuFunction_no_iterative by mrr:0.32533978018
+mfuFunction_no_iterative by mrr1:0.335825
+mfuFunction_no_iterative by map:0.379666944258
+mfuFunction_no_iterative by recall: 0.196019367819,0.328717028895,0.42605390459,0.500993984494,0.559948667569
+mfuFunction_no_iterative by precision:0.5735
+mfuFunction_no_iterative by rap:0.924088888889
+2000 users with duplicated evaluations
+lruFunction_filter by mrr:0.293267228314
+lruFunction_filter by mrr1:0.286386011254
+lruFunction_filter by map:0.385704097345
+lruFunction_filter by recall: 0.150614902524,0.305079566778,0.410051619641,0.485971755441,0.543218132567
+lruFunction_filter by precision:0.570733910807
+lruFunction_filter by rap:0.620077606998
