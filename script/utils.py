@@ -3,6 +3,7 @@ from math import radians, cos, sin, asin, sqrt
 from collections import namedtuple
 import datetime
 EventRow = namedtuple("event", ["userId", "itemId","ts","city","lat","lon"])
+EventRow2 = namedtuple("event", ["userId", "itemId","ts","city","lat","lon","timeofday","dayofweek"])
 TrainRow = namedtuple("train", ["itemId", "context"])
 ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location", "time_of_day" ])
 
@@ -30,6 +31,31 @@ def loadDataset(path):
         city=int(x[3]),
         lat=float(x[6]),
         lon=float(x[7])
+            # day_of_week=datetime.fromtimestamp(int(x[2])).day,
+            # hour_of_day=datetime.fromtimestamp(int(x[2])).hour
+            #day_of_week=int(x[4]),
+            #hour_of_day=int(x[5])
+        ))
+    #test = sc.textFile(path).map(lambda line: TestRow(
+    #   recId=int(line[1:].split(",")[0]),
+    #    userId=int(line[1:].split(",")[1]),
+    #    contextForTest=ContextForTest(
+    #        time_of_day=line.split(",")[2][2:-1],
+    #        day_of_week=line.split(",")[3][2:-1],
+    #        city=int(line.split(",")[4])
+    #    ),
+    #       listOfItems=[int(itemStr) for itemStr in line.split("[")[1][:-2].split(",")]
+    #))
+    return events
+
+def loadDataset2(path):
+    events = sc.textFile(path).map(lambda line: line[1:-1].split(",")).map(lambda x: EventRow2(
+        userId=int(x[0]),
+        itemId=int(x[1]),
+        ts=int(x[2]),
+        city=int(x[3]),
+        lat=float(x[6]),
+        lon=float(x[7]),
             # day_of_week=datetime.fromtimestamp(int(x[2])).day,
             # hour_of_day=datetime.fromtimestamp(int(x[2])).hour
             #day_of_week=int(x[4]),
