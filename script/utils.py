@@ -6,6 +6,8 @@ EventRow = namedtuple("event", ["userId", "itemId","ts","city","lat","lon"])
 EventRow2 = namedtuple("event", ["userId", "itemId","ts","city","lat","lon","timeofday","dayofweek"])
 TrainRow = namedtuple("train", ["itemId", "context"])
 ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location", "time_of_day" ])
+EventInstallRow = namedtuple("event", ["userId", "itemId","ts","city","lat","lon","event_type"])
+TrainInstallRow = namedtuple("train", ["itemId", "context","event_type"])
 
 def haversine(lon1, lat1, lon2, lat2):
     """
@@ -113,6 +115,56 @@ def parseContextData2(line):
                                                         float(f(ele[3])), float(f(ele[4])),
                                                         int(f(ele[5])), int(f(ele[6])), int(f(ele[7])))))
     return (uid, data)
+
+def parseContextData2Merged(line):
+    TrainRow = namedtuple("train", ["itemId", "context"])
+    ContextRow = namedtuple("context", ["ts","city", "lat", "lon", "moving", "location",
+                                        "time_of_day","day_of_week", "event_type" ])
+    #itemid, ts,lat,lon,city,dayofweek,timeofday,eventtype,movement,locationtype,partofday
+    #   0     1  2    3   4      5          6         7        8         9           10
+    import re
+    f = lambda x : re.sub('[^0-9-.]','',x)
+    line = str(line)
+    uid = int(f(line.split('[')[0]))
+    k = map(lambda x: x.split(','), line.split('[')[1].split('(')[1:])
+    l = map(lambda x: x.split(','), line.split('[')[2].split('(')[1:])
+    m = map(lambda x: x.split(','), line.split('[')[3].split('(')[1:])
+    n = map(lambda x: x.split(','), line.split('[')[4].split('(')[1:])
+    data = [[],[],[],[]]
+    for ele in k:
+        data[0].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[4])),
+                                                       float(f(ele[2])), float(f(ele[3])),
+                                                       int(f(ele[8])), int(f(ele[9])), int(f(ele[10])),
+                                                          int(f(ele[5])), int(f(ele[7]))) ) )
+    for ele in l:
+        data[1].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[4])),
+                                                       float(f(ele[2])), float(f(ele[3])),
+                                                       int(f(ele[8])), int(f(ele[9])), int(f(ele[10])),
+                                                          int(f(ele[5])), int(f(ele[7]))) ) )
+    for ele in m:
+        data[2].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[4])),
+                                                       float(f(ele[2])), float(f(ele[3])),
+                                                       int(f(ele[8])), int(f(ele[9])), int(f(ele[10])),
+                                                          int(f(ele[5])), int(f(ele[7]))) ) )
+    for ele in n:
+        data[3].append(TrainRow(int(f(ele[0])), ContextRow(int(f(ele[1])), int(f(ele[4])),
+                                                       float(f(ele[2])), float(f(ele[3])),
+                                                       int(f(ele[8])), int(f(ele[9])), int(f(ele[10])),
+                                                          int(f(ele[5])), int(f(ele[7]))) ) )
+    return (uid, data)
+
+
+def parseContextData2install(line):
+    data = eval(line)
+    uid = data[0]
+    parsedData = [[],[], []]
+    for ele in data[1]:
+        parsedData[0].append(TrainInstallRow(ele[0], ContextRow(*list(ele)[1:8]), ele[8]))
+    for ele in data[2]:
+        parsedData[1].append(TrainInstallRow(ele[0], ContextRow(*list(ele)[1:8]), ele[8]))
+    for ele in data[3]:
+        parsedData[2].append(TrainInstallRow(ele[0], ContextRow(*list(ele)[1:8]), ele[8]))
+    return (uid, parsedData)
 
 def convertTime(ts):
     hour = datetime.datetime.fromtimestamp(ts).hour
