@@ -179,6 +179,17 @@ def convertTime(ts):
         _time_of_day = 4 #"night"
     return _time_of_day
 
+def convertTimeFromHour(hour):
+    _time_of_day = -1;
+    if hour >= 5 and hour < 12:
+        _time_of_day = 1 #"morning"
+    if hour >= 12 and hour < 17:
+        _time_of_day = 2 #"afternoon"
+    if hour >= 17 and hour < 21:
+        _time_of_day = 3 #"evening"
+    if hour >= 21 or hour < 5:
+        _time_of_day = 4 #"night"
+    return _time_of_day
 
 from bisect import bisect_left, bisect_right
 
